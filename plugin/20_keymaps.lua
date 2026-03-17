@@ -46,25 +46,6 @@ nmap(']p', '<Cmd>exe "iput "  . v:register<CR>', 'Paste Below')
 --
 -- Many of the mappings use 'mini.nvim' modules set up in 'plugin/30_mini.lua'.
 
--- Create a global table with information about Leader groups in certain modes.
--- This is used to provide 'mini.clue' with extra clues.
--- Add an entry if you create a new group.
-Config.leader_group_clues = {
-  { mode = 'n', keys = '<Leader>b', desc = '+Buffer' },
-  { mode = 'n', keys = '<Leader>e', desc = '+Explore/Edit' },
-  { mode = 'n', keys = '<Leader>f', desc = '+Find' },
-  { mode = 'n', keys = '<Leader>g', desc = '+Git' },
-  { mode = 'n', keys = '<Leader>l', desc = '+Language' },
-  { mode = 'n', keys = '<Leader>m', desc = '+Map' },
-  { mode = 'n', keys = '<Leader>o', desc = '+Other' },
-  { mode = 'n', keys = '<Leader>s', desc = '+Session' },
-  { mode = 'n', keys = '<Leader>t', desc = '+Terminal' },
-  { mode = 'n', keys = '<Leader>v', desc = '+Visits' },
-
-  { mode = 'x', keys = '<Leader>g', desc = '+Git' },
-  { mode = 'x', keys = '<Leader>l', desc = '+Language' },
-}
-
 -- Helpers for a more concise `<Leader>` mappings.
 -- Most of the mappings use `<Cmd>...<CR>` string as a right hand side (RHS) in
 -- an attempt to be more concise yet descriptive. See `:h <Cmd>`.
@@ -115,16 +96,16 @@ local explore_locations = function()
   vim.cmd(vim.fn.getloclist(0, { winid = true }).winid ~= 0 and 'lclose' or 'lopen')
 end
 
-nmap_leader('ed', '<Cmd>lua MiniFiles.open()<CR>',          'Directory')
-nmap_leader('ef', explore_at_file,                          'File directory')
-nmap_leader('ei', '<Cmd>edit $MYVIMRC<CR>',                 'init.lua')
-nmap_leader('ek', edit_plugin_file('20_keymaps.lua'),       'Keymaps config')
-nmap_leader('em', edit_plugin_file('30_mini.lua'),          'MINI config')
-nmap_leader('en', '<Cmd>lua MiniNotify.show_history()<CR>', 'Notifications')
-nmap_leader('eo', edit_plugin_file('10_options.lua'),       'Options config')
-nmap_leader('ep', edit_plugin_file('40_plugins.lua'),       'Plugins config')
-nmap_leader('eq', explore_quickfix,                         'Quickfix list')
-nmap_leader('eQ', explore_locations,                        'Location list')
+nmap_leader('e', '<Cmd>lua MiniFiles.open()<CR>',          'Directory')
+-- nmap_leader('ef', explore_at_file,                          'File directory')
+-- nmap_leader('ei', '<Cmd>edit $MYVIMRC<CR>',                 'init.lua')
+-- nmap_leader('ek', edit_plugin_file('20_keymaps.lua'),       'Keymaps config')
+-- nmap_leader('em', edit_plugin_file('30_mini.lua'),          'MINI config')
+-- nmap_leader('en', '<Cmd>lua MiniNotify.show_history()<CR>', 'Notifications')
+-- nmap_leader('eo', edit_plugin_file('10_options.lua'),       'Options config')
+-- nmap_leader('ep', edit_plugin_file('40_plugins.lua'),       'Plugins config')
+-- nmap_leader('eq', explore_quickfix,                         'Quickfix list')
+-- nmap_leader('eQ', explore_locations,                        'Location list')
 
 -- f is for 'Fuzzy Find'. Common usage:
 -- - `<Leader>ff` - find files; for best performance requires `ripgrep`
