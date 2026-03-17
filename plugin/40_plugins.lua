@@ -103,6 +103,9 @@ now_if_args(function()
   -- vim.lsp.enable({
   --   -- For example, if `lua-language-server` is installed, use `'lua_ls'` entry
   -- })
+
+  -- lua install with `mise use aqua:LuaLS/lua-language-server`
+  vim.lsp.enable('lua_ls')
 end)
 
 -- Formatting =================================================================
