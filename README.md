@@ -1,4 +1,4 @@
-# MiniMax
+# Paketo
 
 A Neovim configuration built around [mini.nvim](https://github.com/nvim-mini/mini.nvim).
 
@@ -8,6 +8,7 @@ A Neovim configuration built around [mini.nvim](https://github.com/nvim-mini/min
 - For Tree-sitter: C compiler (gcc/clang) for parser compilation
 
 ## Structure
+```
 ├── init.lua          -- Entry point
 ├── plugin/│
 │   ├── 10_options.lua-- Neovim options
@@ -17,6 +18,7 @@ A Neovim configuration built around [mini.nvim](https://github.com/nvim-mini/min
 ├── after/            -- Filetype/LSP overrides
 ├── snippets/         -- User snippets
 └── nvim-pack-lock.json -- Plugin lockfile
+```
 
 ## Usage
 
