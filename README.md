@@ -24,7 +24,7 @@ A Neovim configuration built around [mini.nvim](https://github.com/nvim-mini/min
 
 Clone to your Neovim config directory:
 ```bash
-git clone https://github.com/your-repo/paketo ~/.config/nvim
+git clone https://github.com/baseddxyz/paketo ~/.config/nvim
 ```
 
 Update plugins with `:lua vim.pack.update()` then `:write` to confirm.
