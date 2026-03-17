@@ -106,6 +106,7 @@ now_if_args(function()
 
   -- lua install with `mise use aqua:LuaLS/lua-language-server`
   vim.lsp.enable('lua_ls')
+  vim.lsp.enable('ty')
 end)
 
 -- Formatting =================================================================
