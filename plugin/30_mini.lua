@@ -379,7 +379,16 @@ later(function() require('mini.cmdline').setup() end)
 --
 -- The built-in `:h commenting` is based on 'mini.comment'. Yet this module is
 -- still enabled as it provides more customization opportunities.
-later(function() require('mini.comment').setup() end)
+later(function()
+  require('mini.comment').setup({
+    mappings = {
+      comment = '<leader>/',
+      comment_line = '<leader>/',
+      comment_visual = '<leader>/',
+      textobject = '<leader>/',
+    }
+  })
+end)
 
 -- Autohighlight word under cursor with a customizable delay.
 -- Word boundaries are defined based on `:h 'iskeyword'` option.
@@ -523,9 +532,9 @@ later(function()
   -- Map built-in navigation characters to force map refresh
   for _, key in ipairs({ 'n', 'N', '*', '#' }) do
     local rhs = key
-      -- Also open enough folds when jumping to the next match
-      .. 'zv'
-      .. '<Cmd>lua MiniMap.refresh({}, { lines = false, scrollbar = false })<CR>'
+        -- Also open enough folds when jumping to the next match
+        .. 'zv'
+        .. '<Cmd>lua MiniMap.refresh({}, { lines = false, scrollbar = false })<CR>'
     vim.keymap.set('n', key, rhs)
   end
 end)
@@ -579,7 +588,54 @@ end)
 --   'mini.pairs' doesn't provide particularly smart behavior, like auto balancing
 later(function()
   -- Create pairs not only in Insert, but also in Command line mode
-  require('mini.pairs').setup({ modes = { command = true } })
+  local pairs_opt = {
+    modes = { insert = true, command = true, terminal = false },
+    -- skip autopair when next character is one of these
+    skip_next = [=[[%w%%%'%[%"%.%`%$]]=],
+    -- skip autopair when the cursor is inside these treesitter nodes
+    skip_ts = { "string" },
+    -- skip autopair when next character is closing pair
+    -- and there are more closing pairs than opening pairs
+    skip_unbalanced = true,
+    -- better deal with markdown code blocks
+    markdown = true,
+  }
+  local pairs = require('mini.pairs')
+  pairs.setup(pairs_opt)
+  local open = pairs.open
+  pairs.open = function(pair, neigh_pattern)
+    if vim.fn.getcmdline() ~= "" then
+      return open(pair, neigh_pattern)
+    end
+    local o, c = pair:sub(1, 1), pair:sub(2, 2)
+    local line = vim.api.nvim_get_current_line()
+    local cursor = vim.api.nvim_win_get_cursor(0)
+    local next = line:sub(cursor[2] + 1, cursor[2] + 1)
+    local before = line:sub(1, cursor[2])
+    if pairs_opt.markdown and o == "`" and vim.bo.filetype == "markdown" and before:match("^%s*``") then
+      return "`\n```" .. vim.api.nvim_replace_termcodes("<up>", true, true, true)
+    end
+    if pairs_opt.skip_next and next ~= "" and next:match(pairs_opt.skip_next) then
+      return o
+    end
+    if pairs_opt.skip_ts and #pairs_opt.skip_ts > 0 then
+      local ok, captures =
+          pcall(vim.treesitter.get_captures_at_pos, 0, cursor[1] - 1, math.max(cursor[2] - 1, 0))
+      for _, capture in ipairs(ok and captures or {}) do
+        if vim.tbl_contains(pairs_opt.skip_ts, capture.capture) then
+          return o
+        end
+      end
+    end
+    if pairs_opt.skip_unbalanced and next == c and c ~= o then
+      local _, count_open = line:gsub(vim.pesc(pair:sub(1, 1)), "")
+      local _, count_close = line:gsub(vim.pesc(pair:sub(2, 2)), "")
+      if count_close > count_open then
+        return o
+      end
+    end
+    return open(pair, neigh_pattern)
+  end
 end)
 
 -- Pick anything with single window layout and fast matching. This is one of
@@ -611,7 +667,7 @@ end)
 -- - `:h MiniPick.builtin` and `:h MiniExtra.pickers` - available pickers;
 --   Execute one either with Lua function, `:Pick <picker-name>` command, or
 --   one of `<Leader>f` mappings defined in 'plugin/20_keymaps.lua'
-later(function() require('mini.pick').setup() end)
+-- later(function() require('mini.pick').setup() end)
 
 -- Manage and expand snippets (templates for a frequently used text).
 -- Typical workflow is to type snippet's (configurable) prefix and expand it

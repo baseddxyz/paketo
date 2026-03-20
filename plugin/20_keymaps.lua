@@ -115,33 +115,33 @@ nmap_leader('e', '<Cmd>lua MiniFiles.open()<CR>',          'Directory')
 -- - `<Leader>fv` - all visited paths; requires 'mini.visits'
 --
 -- All these use 'mini.pick'. See `:h MiniPick-overview` for an overview.
-local pick_added_hunks_buf = '<Cmd>Pick git_hunks path="%" scope="staged"<CR>'
-local pick_workspace_symbols_live = '<Cmd>Pick lsp scope="workspace_symbol_live"<CR>'
+-- local pick_added_hunks_buf = '<Cmd>Pick git_hunks path="%" scope="staged"<CR>'
+-- local pick_workspace_symbols_live = '<Cmd>Pick lsp scope="workspace_symbol_live"<CR>'
 
-nmap_leader('f/', '<Cmd>Pick history scope="/"<CR>',            '"/" history')
-nmap_leader('f:', '<Cmd>Pick history scope=":"<CR>',            '":" history')
-nmap_leader('fa', '<Cmd>Pick git_hunks scope="staged"<CR>',     'Added hunks (all)')
-nmap_leader('fA', pick_added_hunks_buf,                         'Added hunks (buf)')
-nmap_leader('fb', '<Cmd>Pick buffers<CR>',                      'Buffers')
-nmap_leader('fc', '<Cmd>Pick git_commits<CR>',                  'Commits (all)')
-nmap_leader('fC', '<Cmd>Pick git_commits path="%"<CR>',         'Commits (buf)')
-nmap_leader('fd', '<Cmd>Pick diagnostic scope="all"<CR>',       'Diagnostic workspace')
-nmap_leader('fD', '<Cmd>Pick diagnostic scope="current"<CR>',   'Diagnostic buffer')
-nmap_leader('ff', '<Cmd>Pick files<CR>',                        'Files')
-nmap_leader('fw', '<Cmd>Pick grep_live<CR>',                    'Grep live')
-nmap_leader('fG', '<Cmd>Pick grep pattern="<cword>"<CR>',       'Grep current word')
-nmap_leader('fh', '<Cmd>Pick help<CR>',                         'Help tags')
-nmap_leader('fH', '<Cmd>Pick hl_groups<CR>',                    'Highlight groups')
-nmap_leader('fl', '<Cmd>Pick buf_lines scope="all"<CR>',        'Lines (all)')
-nmap_leader('fL', '<Cmd>Pick buf_lines scope="current"<CR>',    'Lines (buf)')
+-- nmap_leader('f/', '<Cmd>Pick history scope="/"<CR>',            '"/" history')
+-- nmap_leader('f:', '<Cmd>Pick history scope=":"<CR>',            '":" history')
+nmap_leader('fa', '<Cmd>FzfLua git_hunks scope="staged"<CR>',     'Added hunks (all)')
+-- nmap_leader('fA', pick_added_hunks_buf,                         'Added hunks (buf)')
+nmap_leader('fb', '<Cmd>FzfLua buffers<CR>',                      'Buffers')
+nmap_leader('fc', '<Cmd>FzfLua git_commits<CR>',                  'Commits (all)')
+-- nmap_leader('fC', '<Cmd>Pick git_commits path="%"<CR>',         'Commits (buf)')
+-- nmap_leader('fd', '<Cmd>Pick diagnostic scope="all"<CR>',       'Diagnostic workspace')
+-- nmap_leader('fD', '<Cmd>Pick diagnostic scope="current"<CR>',   'Diagnostic buffer')
+nmap_leader('ff', '<Cmd>FzfLua files<CR>',                        'Files')
+nmap_leader('fw', '<Cmd>FzfLua live_grep<CR>',                    'Grep live')
+-- nmap_leader('fG', '<Cmd>Pick grep pattern="<cword>"<CR>',       'Grep current word')
+-- nmap_leader('fh', '<Cmd>Pick help<CR>',                         'Help tags')
+-- nmap_leader('fH', '<Cmd>Pick hl_groups<CR>',                    'Highlight groups')
+-- nmap_leader('fl', '<Cmd>Pick buf_lines scope="all"<CR>',        'Lines (all)')
+-- nmap_leader('fL', '<Cmd>Pick buf_lines scope="current"<CR>',    'Lines (buf)')
 -- nmap_leader('fm', '<Cmd>Pick git_hunks<CR>',                    'Modified hunks (all)')
-nmap_leader('fM', '<Cmd>Pick git_hunks path="%"<CR>',           'Modified hunks (buf)')
-nmap_leader('fr', '<Cmd>Pick resume<CR>',                       'Resume')
-nmap_leader('fR', '<Cmd>Pick lsp scope="references"<CR>',       'References (LSP)')
-nmap_leader('fs', pick_workspace_symbols_live,                  'Symbols workspace (live)')
-nmap_leader('fS', '<Cmd>Pick lsp scope="document_symbol"<CR>',  'Symbols document')
-nmap_leader('fv', '<Cmd>Pick visit_paths cwd=""<CR>',           'Visit paths (all)')
-nmap_leader('fV', '<Cmd>Pick visit_paths<CR>',                  'Visit paths (cwd)')
+-- nmap_leader('fM', '<Cmd>Pick git_hunks path="%"<CR>',           'Modified hunks (buf)')
+nmap_leader('fr', '<Cmd>FzfLua resume<CR>',                       'Resume')
+-- nmap_leader('fR', '<Cmd>Pick lsp scope="references"<CR>',       'References (LSP)')
+-- nmap_leader('fs', pick_workspace_symbols_live,                  'Symbols workspace (live)')
+-- nmap_leader('fS', '<Cmd>Pick lsp scope="document_symbol"<CR>',  'Symbols document')
+-- nmap_leader('fv', '<Cmd>Pick visit_paths cwd=""<CR>',           'Visit paths (all)')
+-- nmap_leader('fV', '<Cmd>Pick visit_paths<CR>',                  'Visit paths (cwd)')
 
 -- g is for 'Git'. Common usage:
 -- - `<Leader>gs` - show information at cursor
