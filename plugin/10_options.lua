@@ -93,6 +93,9 @@ vim.o.complete        = '.,w,b,kspell'                  -- Use less sources
 vim.o.completeopt     = 'menuone,noselect,fuzzy,nosort' -- Use custom behavior
 vim.o.completetimeout = 100                             -- Limit sources delay
 
+-- experimental ui2
+require('vim._core.ui2').enable()
+
 -- Autocommands ===============================================================
 
 -- Don't auto-wrap comments and don't insert comment leader after hitting 'o'.
