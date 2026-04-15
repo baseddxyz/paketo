@@ -10,14 +10,14 @@
 
 -- An example helper to create a Normal mode mapping
 local nmap = function(lhs, rhs, desc)
-  -- See `:h vim.keymap.set()`
-  vim.keymap.set('n', lhs, rhs, { desc = desc })
+	-- See `:h vim.keymap.set()`
+	vim.keymap.set("n", lhs, rhs, { desc = desc })
 end
 
 -- Paste linewise before/after current line
 -- Usage: `yiw` to yank a word and `]p` to put it on the next line.
-nmap('[p', '<Cmd>exe "iput! " . v:register<CR>', 'Paste Above')
-nmap(']p', '<Cmd>exe "iput "  . v:register<CR>', 'Paste Below')
+nmap("[p", '<Cmd>exe "iput! " . v:register<CR>', "Paste Above")
+nmap("]p", '<Cmd>exe "iput "  . v:register<CR>', "Paste Below")
 
 -- Many general mappings are created by 'mini.basics'. See 'plugin/30_mini.lua'
 
@@ -120,15 +120,17 @@ nmap_leader('e', '<Cmd>lua MiniFiles.open()<CR>',          'Directory')
 
 -- nmap_leader('f/', '<Cmd>Pick history scope="/"<CR>',            '"/" history')
 -- nmap_leader('f:', '<Cmd>Pick history scope=":"<CR>',            '":" history')
-nmap_leader('fa', '<Cmd>FzfLua git_hunks scope="staged"<CR>',     'Added hunks (all)')
+-- nmap_leader('fa', '<Cmd>FzfLua git_hunks scope="staged"<CR>',     'Added hunks (all)')
 -- nmap_leader('fA', pick_added_hunks_buf,                         'Added hunks (buf)')
 nmap_leader('fb', '<Cmd>FzfLua buffers<CR>',                      'Buffers')
-nmap_leader('fc', '<Cmd>FzfLua git_commits<CR>',                  'Commits (all)')
+-- nmap_leader('fc', '<Cmd>FzfLua git_commits<CR>',                  'Commits (all)')
 -- nmap_leader('fC', '<Cmd>Pick git_commits path="%"<CR>',         'Commits (buf)')
 -- nmap_leader('fd', '<Cmd>Pick diagnostic scope="all"<CR>',       'Diagnostic workspace')
 -- nmap_leader('fD', '<Cmd>Pick diagnostic scope="current"<CR>',   'Diagnostic buffer')
-nmap_leader('ff', '<Cmd>FzfLua files<CR>',                        'Files')
-nmap_leader('fw', '<Cmd>FzfLua live_grep<CR>',                    'Grep live')
+-- nmap_leader('ff', '<Cmd>FzfLua files<CR>',                        'Files')
+-- nmap_leader('fw', '<Cmd>FzfLua live_grep<CR>',                    'Grep live')
+nmap_leader('ff', '<Cmd>lua require("fff").find_files()<CR>',                        'Files')
+nmap_leader('fw', '<Cmd>lua require("fff").live_grep()<CR>',                    'Grep live')
 -- nmap_leader('fG', '<Cmd>Pick grep pattern="<cword>"<CR>',       'Grep current word')
 -- nmap_leader('fh', '<Cmd>Pick help<CR>',                         'Help tags')
 -- nmap_leader('fH', '<Cmd>Pick hl_groups<CR>',                    'Highlight groups')
@@ -136,7 +138,7 @@ nmap_leader('fw', '<Cmd>FzfLua live_grep<CR>',                    'Grep live')
 -- nmap_leader('fL', '<Cmd>Pick buf_lines scope="current"<CR>',    'Lines (buf)')
 -- nmap_leader('fm', '<Cmd>Pick git_hunks<CR>',                    'Modified hunks (all)')
 -- nmap_leader('fM', '<Cmd>Pick git_hunks path="%"<CR>',           'Modified hunks (buf)')
-nmap_leader('fr', '<Cmd>FzfLua resume<CR>',                       'Resume')
+-- nmap_leader('fr', '<Cmd>FzfLua resume<CR>',                       'Resume')
 -- nmap_leader('fR', '<Cmd>Pick lsp scope="references"<CR>',       'References (LSP)')
 -- nmap_leader('fs', pick_workspace_symbols_live,                  'Symbols workspace (live)')
 -- nmap_leader('fS', '<Cmd>Pick lsp scope="document_symbol"<CR>',  'Symbols document')
