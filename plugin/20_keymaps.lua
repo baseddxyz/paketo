@@ -96,8 +96,8 @@ local explore_locations = function()
   vim.cmd(vim.fn.getloclist(0, { winid = true }).winid ~= 0 and 'lclose' or 'lopen')
 end
 
-nmap_leader('e', '<Cmd>lua MiniFiles.open()<CR>',          'Directory')
--- nmap_leader('ef', explore_at_file,                          'File directory')
+nmap_leader('ee', '<Cmd>lua MiniFiles.open()<CR>',          'Directory')
+nmap_leader('ef', explore_at_file,                          'File directory')
 -- nmap_leader('ei', '<Cmd>edit $MYVIMRC<CR>',                 'init.lua')
 -- nmap_leader('ek', edit_plugin_file('20_keymaps.lua'),       'Keymaps config')
 -- nmap_leader('em', edit_plugin_file('30_mini.lua'),          'MINI config')
