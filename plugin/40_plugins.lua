@@ -28,6 +28,19 @@ now(function()
 			show_scores = false,
 		},
 	}
+
+	-- Disable completion inside fff.nvim's prompt buffer so the popup menu
+	-- doesn't obscure the picker results
+	Config.new_autocmd(
+		'FileType',
+		'fff_input',
+		function(ev)
+			vim.bo[ev.buf].completeopt = ''
+			vim.bo[ev.buf].omnifunc = ''
+			vim.bo[ev.buf].completefunc = ''
+		end,
+		'Disable completion in fff.nvim input'
+	)
 end)
 
 -- Tree-sitter ================================================================
