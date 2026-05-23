@@ -35,9 +35,7 @@ now(function()
 		'FileType',
 		'fff_input',
 		function(ev)
-			vim.bo[ev.buf].completeopt = ''
-			vim.bo[ev.buf].omnifunc = ''
-			vim.bo[ev.buf].completefunc = ''
+			vim.b[ev.buf].minicompletion_disable = true
 		end,
 		'Disable completion in fff.nvim input'
 	)
