@@ -62,6 +62,21 @@ local nmap = function(suffix, rhs, desc)
   vim.keymap.set('n', suffix, rhs, { desc = desc })
 end
 
+-- a is for 'AI'. Common usage:
+-- - `<Leader>aa` - toggle the current Sidekick CLI
+-- - `<Leader>as` - select an installed AI CLI
+-- - `<Leader>ap` - select and send a predefined prompt
+local sidekick_cli = '<Cmd>lua require("sidekick.cli").'
+nmap_leader('aa', sidekick_cli .. 'toggle()<CR>',                                  'Toggle CLI')
+nmap_leader('ad', sidekick_cli .. 'close()<CR>',                                   'Detach CLI')
+nmap_leader('af', sidekick_cli .. 'send({ msg = "{file}" })<CR>',                 'Send file')
+nmap_leader('ap', sidekick_cli .. 'prompt()<CR>',                                  'Select prompt')
+nmap_leader('as', sidekick_cli .. 'select({ filter = { installed = true } })<CR>', 'Select CLI')
+nmap_leader('at', sidekick_cli .. 'send({ msg = "{this}" })<CR>',                 'Send this')
+
+xmap_leader('ap', sidekick_cli .. 'prompt()<CR>',                          'Select prompt')
+xmap_leader('at', sidekick_cli .. 'send({ msg = "{this}" })<CR>',        'Send this')
+
 -- b is for 'Buffer'. Common usage:
 -- - `<Leader>bs` - create scratch (temporary) buffer
 -- - `<Leader>ba` - navigate to the alternative buffer

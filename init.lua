@@ -70,10 +70,13 @@
 -- It is a global variable which can be use both as `_G.Config` and `Config`
 _G.Config = {}
 
--- 'mini.nvim' - all-in-one plugin powering most MiniMax features.
--- See 'plugin/30_mini.lua' for how it is used.
--- Load now to have 'mini.misc' available for custom loading helpers.
-vim.pack.add({ 'https://github.com/nvim-mini/mini.nvim' })
+-- Load startup-critical plugins before files in 'plugin/' are sourced:
+-- - 'mini.nvim' powers most MiniMax features and provides loading helpers.
+-- - 'luna.nvim' provides the colorscheme applied during the first screen draw.
+vim.pack.add({
+  'https://github.com/nvim-mini/mini.nvim',
+  'https://github.com/WTFox/luna.nvim',
+})
 
 -- Loading helpers used to organize config into fail-safe parts. Example usage:
 -- - `now` - execute immediately. Use for what must be executed during startup.

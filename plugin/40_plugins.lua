@@ -183,6 +183,20 @@ later(function()
 	add({ "https://github.com/rafamadriz/friendly-snippets" })
 end)
 
+-- Sidekick ===================================================================
+
+-- Integrate AI command-line tools in a terminal inside Neovim. Next Edit
+-- Suggestions are also available when the Copilot language server is installed
+-- and enabled separately. See `<Leader>a` mappings in 'plugin/20_keymaps.lua'.
+later(function()
+  add({ 'https://github.com/qapquiz/sidekick.nvim' })
+
+  require('sidekick').setup({
+    -- Reuse the picker already configured below instead of requiring snacks.nvim
+    cli = { picker = 'fzf-lua' },
+  })
+end)
+
 -- Honorable mentions =========================================================
 
 -- 'mason-org/mason.nvim' (a.k.a. "Mason") is a great tool (package manager) for
