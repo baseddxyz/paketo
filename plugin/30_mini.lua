@@ -90,9 +90,11 @@ end)
 -- - `:h vim.notify()` - show notification (hides automatically)
 -- - `<Leader>en` - show notification history
 --
+-- Enabled with `later()`: the provider is not needed for the first screen
+-- draw, so notifications that arrive before it loads use the default display.
 -- See also:
 -- - `:h MiniNotify.config` for some of common configuration examples.
-now(function() require('mini.notify').setup() end)
+later(function() require('mini.notify').setup() end)
 
 -- Session management. A thin wrapper around `:h mksession` that consistently
 -- manages session files. Example usage:
