@@ -29,6 +29,13 @@ vim.o.undofile    = true           -- Enable persistent undo
 
 vim.o.shada = "'100,<50,s10,:1000,/100,@100,h" -- Limit ShaDa file (for startup)
 
+-- Don't load built-in plugins this config doesn't use. Directory viewing works
+-- without 'netrw' (native browsing handles `nvim dir`, 'mini.files' is the
+-- explorer), and no remote plugins are used.
+vim.g.loaded_netrw          = 1
+vim.g.loaded_netrwPlugin    = 1
+vim.g.loaded_remote_plugins = 1
+
 -- Enable all filetype plugins and syntax (if not enabled, for better startup)
 vim.cmd('filetype plugin indent on')
 if vim.fn.exists('syntax_on') ~= 1 then vim.cmd('syntax enable') end
