@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 # Measure this config's startup time with Neovim's own `--startuptime`.
-# Prints the number Neovim reports for `--- NVIM STARTED ---` per run, then
-# the min, median, and max across runs. A missing marker fails the run loudly,
-# so a startup error can't read as a fast run.
+# A missing `--- NVIM STARTED ---` marker fails the run loudly, so a startup
+# error can't read as a fast run.
 #
 # Usage: ./bench-startup.sh [runs] [trace-file]
 #   runs       number of startup runs (default: 7)

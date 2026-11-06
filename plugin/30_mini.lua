@@ -43,10 +43,8 @@ end)
 -- - `<C-hjkl>` (four combos) - navigate between windows.
 -- - `<M-hjkl>` in Insert/Command mode - navigate in that mode.
 --
--- Enabled with `later()`: it creates only mappings and autocommands, which
--- are not needed for the first screen draw. This moves its setup time out of
--- the startup path while presets still arrive before any realistic user
--- input.
+-- Enabled with `later()`: it adds only mappings and autocommands, nothing the
+-- first screen draw reads.
 --
 -- See also:
 -- - `:h MiniBasics.config.options` - list of adjusted options
@@ -90,8 +88,9 @@ end)
 -- - `:h vim.notify()` - show notification (hides automatically)
 -- - `<Leader>en` - show notification history
 --
--- Enabled with `later()`: the provider is not needed for the first screen
--- draw, so notifications that arrive before it loads use the default display.
+-- Enabled with `later()`: the provider isn't needed for the first screen
+-- draw, and notifications arriving before it loads use the default display.
+--
 -- See also:
 -- - `:h MiniNotify.config` for some of common configuration examples.
 later(function() require('mini.notify').setup() end)
