@@ -150,6 +150,33 @@ nmap_leader('aF', function() copy_path_with_line(true) end, 'Path with line (abs
 xmap_leader('ac', copy_selection_code_block, 'Code block')
 xmap_leader('ay', copy_selection, 'Yank selection')
 
+-- Calling the WSL clipboard bridge synchronously can pause Neovim. Send the
+-- selected text to clip.exe in the background so the mapping returns promptly.
+local clipboard_yank = function()
+  local mode = vim.fn.mode()
+  local lines = vim.fn.getregion(vim.fn.getpos('v'), vim.fn.getpos('.'), { type = mode })
+  local text = table.concat(lines, '\n')
+  if mode == 'V' then text = text .. '\n' end
+
+  vim.fn.setreg('"', lines, mode)
+
+  local clip = vim.fn.exepath('clip.exe')
+  if clip ~= '' then
+    vim.system({ clip }, { stdin = text }, function(result)
+      if result.code ~= 0 then
+        vim.schedule(function()
+          vim.notify('Copy to Windows clipboard failed', vim.log.levels.ERROR)
+        end)
+      end
+    end)
+  else
+    vim.fn.setreg('+', lines, mode)
+  end
+
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, false, true), 'nx', false)
+end
+xmap_leader('y', clipboard_yank, 'Yank to clipboard')
+
 -- b is for 'Buffer'. Common usage:
 -- - `<Leader>bs` - create scratch (temporary) buffer
 -- - `<Leader>ba` - navigate to the alternative buffer
