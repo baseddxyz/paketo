@@ -43,11 +43,16 @@ end)
 -- - `<C-hjkl>` (four combos) - navigate between windows.
 -- - `<M-hjkl>` in Insert/Command mode - navigate in that mode.
 --
+-- Enabled with `later()`: it creates only mappings and autocommands, which
+-- are not needed for the first screen draw. This moves its setup time out of
+-- the startup path while presets still arrive before any realistic user
+-- input.
+--
 -- See also:
 -- - `:h MiniBasics.config.options` - list of adjusted options
 -- - `:h MiniBasics.config.mappings` - list of created mappings
 -- - `:h MiniBasics.config.autocommands` - list of created autocommands
-now(function()
+later(function()
   require('mini.basics').setup({
     -- Manage options in 'plugin/10_options.lua' for didactic purposes
     options = { basic = false },
