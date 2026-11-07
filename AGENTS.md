@@ -52,16 +52,16 @@ mise.toml               Tool versions (LuaLS, ty)
 
 - Leader is `<Space>` (`vim.g.mapleader = ' '`).
 - Two-key leader scheme: first key = semantic group, second key = action.
-  - `b` buffer, `e` explore/edit, `f` fuzzy find, `g` git, `l`/`ca`/`cd`/`fm`/`rn` LSP, `m` map, `o` other, `s` session, `t` terminal, `v` visits.
+  - `a` agent context, `b` buffer, `d` diff review, `e` explore/edit, `f` fuzzy find, `g` git, `l`/`ca`/`cd`/`fm`/`rn` LSP, `m` map, `o` other, `s` session, `t` terminal, `v` visits.
 - Leader mappings use `<Cmd>...<CR>` RHS strings for lazy loading (no requirement that the underlying command exists at mapping creation time).
-- Non-leader mappings: `gd`, `gD`, `gr`, `gi`, `K`, `<C-k>`, `<Tab>`/`<S-TAB>` buffer nav, `[p`/`]p` linewise paste.
+- Non-leader mappings: `gd`, `gD`, `gr`, `gi`, `K`, `<C-k>`, `<Tab>`/`<S-TAB>` buffer nav, `[p`/`]p` linewise paste, `ZR` restart Neovim (`:restart`, restores session).
 
 ### Plugin Management
 
 - Uses Neovim 0.12's built-in `vim.pack` — NOT a third-party plugin manager.
 - Plugins are added with `vim.pack.add({ 'https://github.com/...' })`.
 - Lockfile `nvim-pack-lock.json` tracks pinned commit SHAs. Do not edit manually; update via `:lua vim.pack.update()` then `:write`.
-- External plugins: `mini.nvim`, `nvim-treesitter`, `nvim-treesitter-textobjects`, `nvim-lspconfig`, `conform.nvim`, `friendly-snippets`, `fzf-lua`, `fff.nvim`.
+- External plugins: `mini.nvim`, `luna.nvim`, `nvim-treesitter`, `nvim-treesitter-textobjects`, `nvim-lspconfig`, `conform.nvim`, `friendly-snippets`, `fzf-lua`, `fff.nvim`, `codediff.nvim`.
 
 ### LSP
 

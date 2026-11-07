@@ -19,6 +19,15 @@ end
 nmap("[p", '<Cmd>exe "iput! " . v:register<CR>', "Paste Above")
 nmap("]p", '<Cmd>exe "iput "  . v:register<CR>', "Paste Below")
 
+-- Restart Neovim using 0.12's built-in `:restart` command: relaunches in the
+-- same terminal and restores the session (windows, tabs, buffers). Useful for
+-- iterating on this config: save files (`:wa`), press `ZR` - new config is
+-- loaded with the current context still in place.
+-- NOTE: buffers with unsaved changes block the restart; use `:restart +qall!`
+-- to discard them. Running `:terminal` jobs are killed, while processes
+-- outside Neovim (like Herdr agents) are not affected.
+nmap("ZR", "<Cmd>restart<CR>", "Restart Neovim (restores session)")
+
 -- Many general mappings are created by 'mini.basics'. See 'plugin/30_mini.lua'
 
 -- stylua: ignore start
@@ -62,6 +71,85 @@ local nmap = function(suffix, rhs, desc)
   vim.keymap.set('n', suffix, rhs, { desc = desc })
 end
 
+-- a is for 'Agent'. Helpers to pass context from Neovim to a coding agent
+-- (like one running in a Herdr pane). Common usage:
+-- - `<Leader>af` - copy current file path with line number (`path#L12`)
+-- - `<Leader>aF` - same, but with absolute path
+-- - `<Leader>ac` - copy visual selection as a Markdown code block with file
+--   attributes (`filename="…"`, `line=…`), ready to paste into a chat
+-- - `<Leader>ay` - copy visual selection as plain text
+-- Pasting such path into an agent's prompt points it at the exact file/line.
+local copy_to_clipboard = function(text)
+  vim.fn.setreg('+', text)
+  -- Show what was copied; 'mini.notify' renders this as a notification
+  vim.notify(text)
+end
+
+local copy_path_with_line = function(is_absolute)
+  local name = vim.api.nvim_buf_get_name(0)
+  if name == '' then
+    return vim.notify('Buffer is not backed by a file', vim.log.levels.WARN)
+  end
+  -- `:~:.` gives path relative to current directory (`~` when outside of it)
+  local modifier = is_absolute and ':p' or ':~:.'
+  local path = vim.fs.normalize(vim.fn.fnamemodify(name, modifier))
+  copy_to_clipboard(('%s#L%d'):format(path, vim.api.nvim_win_get_cursor(0)[1]))
+end
+
+-- Short code fence language names for common filetypes
+local code_lang = {
+  bash = 'sh',
+  javascript = 'js',
+  javascriptreact = 'jsx',
+  typescript = 'ts',
+  typescriptreact = 'tsx',
+}
+
+local copy_selection_code_block = function()
+  local name = vim.api.nvim_buf_get_name(0)
+  if name == '' then
+    return vim.notify('Buffer is not backed by a file', vim.log.levels.WARN)
+  end
+  -- Mapping RHS function is executed while Visual mode is still active, so
+  -- selection bounds come from `line('v')` (start) and `line('.')` (cursor).
+  -- Fall back to `'<` / `'>` marks if invoked after Visual mode already ended.
+  local mode = vim.fn.mode()
+  local from, to
+  if mode == 'v' or mode == 'V' or mode == '\22' then
+    from, to = vim.fn.line('v'), vim.fn.line('.')
+  else
+    from = vim.api.nvim_buf_get_mark(0, '<')[1]
+    to = vim.api.nvim_buf_get_mark(0, '>')[1]
+  end
+  if from < 1 or to < 1 then
+    return vim.notify('No selection to copy', vim.log.levels.WARN)
+  end
+  if from > to then from, to = to, from end
+  local lines = vim.api.nvim_buf_get_lines(0, from - 1, to, false)
+  local lang = code_lang[vim.bo.filetype] or (vim.bo.filetype ~= '' and vim.bo.filetype or 'text')
+  local line = from == to and from or ('%d-%d'):format(from, to)
+  local block = ('```%s filename="%s" line=%s\n%s\n```'):format(
+    lang,
+    vim.fs.normalize(vim.fn.fnamemodify(name, ':~:.')),
+    line,
+    table.concat(lines, '\n')
+  )
+  copy_to_clipboard(block)
+end
+
+local copy_selection = function()
+  -- Yank the selection with built-in `y`: runs while Visual mode is still
+  -- active and handles charwise, linewise, and blockwise selections (as well
+  -- as multibyte text). Selection text lands in the unnamed register.
+  vim.api.nvim_feedkeys('y', 'mx', false)
+  copy_to_clipboard(vim.fn.getreg(vim.v.register))
+end
+
+nmap_leader('af', function() copy_path_with_line(false) end, 'Path with line')
+nmap_leader('aF', function() copy_path_with_line(true) end, 'Path with line (absolute)')
+xmap_leader('ac', copy_selection_code_block, 'Code block')
+xmap_leader('ay', copy_selection, 'Yank selection')
+
 -- b is for 'Buffer'. Common usage:
 -- - `<Leader>bs` - create scratch (temporary) buffer
 -- - `<Leader>ba` - navigate to the alternative buffer
@@ -78,6 +166,22 @@ nmap_leader('bw', '<Cmd>lua MiniBufremove.wipeout()<CR>',        'Wipeout')
 nmap_leader('bW', '<Cmd>lua MiniBufremove.wipeout(0, true)<CR>', 'Wipeout!')
 nmap('<TAB>', '<Cmd>bnext<CR>',                                  'Go to next buffer')
 nmap('<S-TAB>', '<Cmd>bprevious<CR>',                            'Go to previous buffer')
+
+-- d is for 'Diff review' with 'codediff.nvim'. Common usage:
+-- - `<Leader>dv` - review working tree changes side-by-side with file explorer
+-- - `<Leader>dh` - browse history of current file
+-- - `<Leader>dH` - browse history of the whole repository
+-- Press `g?` inside for all available keys; `q` closes the review tab.
+local codediff_file_history = function()
+  -- Use path relative to current directory; fall back to repo history if
+  -- current buffer is not backed by a file
+  local path = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ':.')
+  vim.cmd(path == '' and 'CodeDiff history' or ('CodeDiff history ' .. path))
+end
+
+nmap_leader('dH', '<Cmd>CodeDiff history<CR>', 'Repo history')
+nmap_leader('dh', codediff_file_history,       'File history')
+nmap_leader('dv', '<Cmd>CodeDiff<CR>',         'View changes')
 
 
 -- e is for 'Explore' and 'Edit'. Common usage:

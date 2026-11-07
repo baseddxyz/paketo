@@ -183,6 +183,32 @@ later(function()
 	add({ "https://github.com/rafamadriz/friendly-snippets" })
 end)
 
+-- codediff.nvim =============================================================
+
+-- 'esmuellert/codediff.nvim' is a live code review workspace: VSCode style
+-- side-by-side diffs with a file explorer of changed files and a history
+-- browser. It is designed for reviewing changes made by coding agents while
+-- they run (e.g. in a Herdr pane): the view stays synchronized and refreshes
+-- as files change on disk. From the same view files and hunks can be staged
+-- or discarded.
+--
+-- It needs no compiler: a pre-built diff library is downloaded automatically
+-- on first use (requires `curl`).
+--
+-- See also:
+-- - `:CodeDiff` - open review workspace (shows working tree changes)
+-- - `<Leader>dv` / `<Leader>dh` / `<Leader>dH` in 'plugin/20_keymaps.lua'
+later(function()
+	add({ "https://github.com/esmuellert/codediff.nvim" })
+
+	require("codediff").setup({
+		explorer = {
+			-- Show +/− line statistics per changed file
+			line_stats = { enabled = true },
+		},
+	})
+end)
+
 -- Honorable mentions =========================================================
 
 -- 'mason-org/mason.nvim' (a.k.a. "Mason") is a great tool (package manager) for
