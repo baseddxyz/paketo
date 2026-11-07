@@ -62,13 +62,6 @@ local nmap = function(suffix, rhs, desc)
   vim.keymap.set('n', suffix, rhs, { desc = desc })
 end
 
--- a is for 'AI'. Common usage:
--- - `<Leader>ap` - paste visual selection into the sidekick agent's chatbox
---   (running in a Herdr pane; never auto-submitted, focus stays in Neovim)
--- The ":" prefix exits Visual mode so that '< '> marks describe the selection.
-local herdr_sidekick = ":<C-u>lua require('herdr-sidekick').send_selection()<CR>"
-xmap_leader('ap', herdr_sidekick, 'Send this (herdr-sidekick)')
-
 -- b is for 'Buffer'. Common usage:
 -- - `<Leader>bs` - create scratch (temporary) buffer
 -- - `<Leader>ba` - navigate to the alternative buffer
