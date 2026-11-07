@@ -29,6 +29,13 @@ git clone https://github.com/baseddxyz/paketo ~/.config/nvim
 
 Update plugins with `:lua vim.pack.update()` then `:write` to confirm.
 
+Measure startup time with `./bench-startup.sh` (optional first argument is the
+number of runs). Pass a second argument to keep the first run's
+`--startuptime` log for profiling:
+```bash
+./bench-startup.sh 7 trace.log
+```
+
 ## License
 
 O'Saasy

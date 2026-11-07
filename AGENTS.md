@@ -29,7 +29,7 @@ mise.toml               Tool versions (LuaLS, ty)
 
 `init.lua` defines helpers that control when code runs during startup:
 
-- `Config.now(fn)` — execute immediately (startup-critical: colorscheme, statusline, tabline, starter, icons, notify, sessions)
+- `Config.now(fn)` — execute immediately (startup-critical: colorscheme, statusline, tabline, starter, icons, sessions). Only what the first screen draw reads belongs here. Interaction-time modules like `mini.basics` and providers like `mini.notify` use `later()`.
 - `Config.later(fn)` — defer until after first screen draw (most mini modules, external plugins)
 - `Config.now_if_args(fn)` — `now` when Neovim opens files (`nvim -- file`), `later` otherwise (completion, mini.files, mini.misc)
 - `Config.on_event(ev, fn)` — defer until first occurrence of an event

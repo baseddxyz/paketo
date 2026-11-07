@@ -43,11 +43,14 @@ end)
 -- - `<C-hjkl>` (four combos) - navigate between windows.
 -- - `<M-hjkl>` in Insert/Command mode - navigate in that mode.
 --
+-- Enabled with `later()`: it adds only mappings and autocommands, nothing the
+-- first screen draw reads.
+--
 -- See also:
 -- - `:h MiniBasics.config.options` - list of adjusted options
 -- - `:h MiniBasics.config.mappings` - list of created mappings
 -- - `:h MiniBasics.config.autocommands` - list of created autocommands
-now(function()
+later(function()
   require('mini.basics').setup({
     -- Manage options in 'plugin/10_options.lua' for didactic purposes
     options = { basic = false },
@@ -85,9 +88,12 @@ end)
 -- - `:h vim.notify()` - show notification (hides automatically)
 -- - `<Leader>en` - show notification history
 --
+-- Enabled with `later()`: the provider isn't needed for the first screen
+-- draw, and notifications arriving before it loads use the default display.
+--
 -- See also:
 -- - `:h MiniNotify.config` for some of common configuration examples.
-now(function() require('mini.notify').setup() end)
+later(function() require('mini.notify').setup() end)
 
 -- Session management. A thin wrapper around `:h mksession` that consistently
 -- manages session files. Example usage:
