@@ -22,7 +22,7 @@ after/
 snippets/
   global.json           Snippets available in every buffer
 nvim-pack-lock.json     Plugin version lockfile (pins commit SHAs)
-mise.toml               Tool versions (LuaLS, ty)
+mise.toml               Tool versions (LuaLS, ty, ruff)
 ```
 
 ### Loading Model
@@ -67,11 +67,12 @@ mise.toml               Tool versions (LuaLS, ty)
 
 - Uses `vim.lsp.enable()` and `vim.lsp.config()` (Neovim 0.12 built-in API).
 - Per-server configs live in `after/lsp/` as Lua modules returning config tables.
-- Currently enabled servers: `lua_ls` (via `mise`), `ty`.
+- Currently enabled servers: `lua_ls` (via `mise`), `ty` + `ruff` (Python type checking and linting, via `mise`).
 
 ### Formatting
 
 - `conform.nvim` handles formatting with `lsp_format = "fallback"`.
+- Python: `ruff` (organize imports, then format); ruff server provides lint diagnostics and code actions.
 - Format mappings: `<Leader>fm` (buffer), `<Leader>lf` (visual selection).
 - Formatter configs are in `formatters_by_ft` inside `plugin/40_plugins.lua`.
 

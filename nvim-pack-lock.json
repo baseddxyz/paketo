@@ -16,6 +16,14 @@
       "rev": "71b45a044c4ef6ecb1910880ef642d5a0e1c02e9",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
+    "herdr-sidekick.nvim": {
+      "rev": "49002dafa2cc4829e7be931e84bd680c9e0351f0",
+      "src": "https://github.com/qapquiz/herdr-sidekick.nvim"
+    },
+    "luna.nvim": {
+      "rev": "727c19334528e1b8939f518d1ea43c4e62d98f91",
+      "src": "https://github.com/WTFox/luna.nvim"
+    },
     "mini.nvim": {
       "rev": "a405061478d8027b4e21214d897ce1eb33115792",
       "src": "https://github.com/nvim-mini/mini.nvim"

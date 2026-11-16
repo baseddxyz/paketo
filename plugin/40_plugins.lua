@@ -86,6 +86,8 @@ now_if_args(function()
 		"lua",
 		"vimdoc",
 		"markdown",
+		-- Install with `mise use ruff` (see LSP/Formatting sections below)
+		"python",
 		-- Add here more languages with which you want to use tree-sitter
 		-- To see available languages:
 		-- - Execute `:=require('nvim-treesitter').get_available()`
@@ -141,6 +143,12 @@ now_if_args(function()
 
 	-- lua install with `mise use aqua:LuaLS/lua-language-server`
 	vim.lsp.enable("lua_ls")
+
+	-- python install with `mise use ruff`
+	-- 'ruff' server powers linting: diagnostics, code actions (`<Leader>ca`),
+	-- organize imports. Formatting goes through 'conform.nvim' (see below).
+	-- Type checking is handled separately by 'ty'.
+	vim.lsp.enable("ruff")
 	vim.lsp.enable("ty")
 end)
 
@@ -166,7 +174,10 @@ later(function()
 		},
 		-- Map of filetype to formatters
 		-- Make sure that necessary CLI tool is available
-		-- formatters_by_ft = { lua = { 'stylua' } },
+		formatters_by_ft = {
+			-- Install with `mise use ruff`. Organize imports first, then format.
+			python = { "ruff_organize_imports", "ruff_format" },
+		},
 	})
 end)
 
