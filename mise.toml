@@ -1,4 +1,0 @@
-[tools]
-"aqua:LuaLS/lua-language-server" = "latest"
-ruff = "latest"
-ty = "latest"

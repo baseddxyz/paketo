@@ -80,7 +80,23 @@ end
 -- - `<Leader>ay` - copy visual selection as plain text
 -- Pasting such path into an agent's prompt points it at the exact file/line.
 local copy_to_clipboard = function(text)
-  vim.fn.setreg('+', text)
+  -- Avoid touching the '+' register here: on WSL its first use loads the
+  -- clipboard provider, which probes Windows PowerShell (slow cold start), and
+  -- every later copy runs `clip.exe` synchronously. Use the unnamed register and
+  -- pipe to `clip.exe` in the background, same as `<Leader>y` does.
+  vim.fn.setreg('"', text)
+  local clip = vim.fn.exepath('clip.exe')
+  if clip ~= '' then
+    vim.system({ clip }, { stdin = text }, function(result)
+      if result.code ~= 0 then
+        vim.schedule(function()
+          vim.notify('Copy to Windows clipboard failed', vim.log.levels.ERROR)
+        end)
+      end
+    end)
+  else
+    vim.fn.setreg('+', text)
+  end
   -- Show what was copied; 'mini.notify' renders this as a notification
   vim.notify(text)
 end
